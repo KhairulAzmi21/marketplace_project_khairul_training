@@ -14,7 +14,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        // fetch all products that belongs to authenticate user
+        $products = Product::where('user_id', auth()->user()->id)->latest()->get();
+        // $product = auth()->user()->products;
+
+        return view("products.index", [ 'products' => $products ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view("products.create");
     }
 
     /**
@@ -35,7 +39,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // validation
         //
+        $path = $request->file('image')->store('public/products');
+
+        Product::create([
+            'user_id' => auth()->user()->id,
+            'title'   => $request->title,
+            'body'   => $request->body,
+            'price'   => $request->price,
+            'category'   => $request->category,
+            'image_path' => $path,
+        ]);
+        // session flash
+        return redirect('/products');
+
     }
 
     /**
@@ -46,7 +64,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        // $post = Product::find($id);
+        return view('products.show', ['product' => $product]);
     }
 
     /**
@@ -57,7 +76,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        // dd($product);
+        return view('products.edit', ['product' => $product]);
     }
 
     /**
@@ -69,7 +89,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        //some validation
+
+        // if user add a new image , update the image
+        if($request->image != null){
+            $path = $request->file('image')->store('public/products');
+        }
+        $product->update([
+            'title'   => $request->title,
+            'body'   => $request->body,
+            'price'   =>  auth()->user()->id == $product->user_id ? $request->price : $product->price ,
+            'category'   => $request->category,
+            'image_path' => $request->image != null ? $path : $product->image_path,
+            'status' => $request->status,
+        ]);
+        // session for flash message
+        return redirect('/products');
     }
 
     /**
@@ -80,6 +115,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        //flash message say delete successful 
+        return redirect('/products');
+
     }
 }

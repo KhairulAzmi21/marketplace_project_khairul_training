@@ -42,11 +42,12 @@
                                <a class="dropdown-item" href="/?category=fashion">Fashion</a>
                             </div>
                          </li>
+                        @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Listing</a>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">All Listing</a>
-                              <a class="dropdown-item" href="#">New Listing</a>
+                              <a class="dropdown-item" href="/products">All Listing</a>
+                              <a class="dropdown-item" href="/products/create">New Listing</a>
                             </div>
                          </li>
                         <li class="nav-item dropdown">
@@ -55,6 +56,7 @@
                               <a class="dropdown-item" href="#">All Listing</a>
                             </div>
                          </li>
+                         @endauth
 
                     </ul>
                     <form class="form-inline my-2 my-lg-0">

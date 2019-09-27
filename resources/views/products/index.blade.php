@@ -14,20 +14,26 @@
                                 <th>Image</th>
                                 <th>Created At</th>
                                 <th>Status</th>
+                                <th>Category</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> <a href="/product/id">Posting Title</a> </td>
-                                <td> <img src="https://dummyimage.com/400x400/000/fff" width="100px"alt=""> </td>
-                                <td>23 Oct 2019</td>
-                                <td> <span class="badge badge-primary">Sold</span> </td>
-                                <td>
-                                    <a href="#" class="btn btn-info btn-sm">Edit</a>
-                                    <a href="#" class="btn btn-danger btn-sm  btn-delete">Delete</a>
-                                </td>
-                            </tr>
+                            @foreach ($products as $product)
+                                <tr>
+                                    {{-- {{ $product->image_path != null ? asset(str_replace('public','storage', $product->image_path)) : "https://dummyimage.com/400x400/000/fff" }} --}}
+                                    <td> <a href="/products/{{ $product->id }}">{{ $product->title}}</a> </td>
+                                    {{-- <td> <img src="https://dummyimage.com/400x400/000/fff" width="100px"alt=""> </td> --}}
+                                    <td> <img src="{{ $product->image_path != null ? asset(str_replace('public','storage', $product->image_path)) : "https://dummyimage.com/400x400/000/fff" }}" width="100px" alt=""> </td>
+                                    <td>{{ $product->created_at->diffForHumans() }}</td>
+                                    <td> <span class="badge badge-primary">{{ $product->status}}</span> </td>
+                                    <td> <span class="badge badge-primary">{{ $product->category}}</span> </td>
+                                    <td>
+                                        <a href="/products/{{ $product->id }}/edit" class="btn btn-info btn-sm">Edit</a>
+                                        <a href="/products/{{ $product->id}}/delete" class="btn btn-danger btn-sm  btn-delete">Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -45,6 +51,8 @@
             </button>
           </div>
           <form action="" method="post" id="form-delete">
+              @csrf
+              @method("DELETE")
               <div class="modal-body">
 
               </div>

@@ -10,15 +10,16 @@
             <div class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title">
-                    Card title
-                    <span class="badge badge-primary"> available </span>
+                    {{ $product->title }}
+                    <span class="badge badge-primary"> {{ $product->status }} </span>
                 </h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><h4 class="text-muted">Price <b>RM1000</b> </h4></p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <p class="card-text">{{ $product->body }}</p>
+                <p class="card-text"><h4 class="text-muted">Price <b>RM{{ $product->price }}</b> </h4></p>
+                <p class="card-text"><small class="text-muted">Last updated {{ $product->updated_at->diffForHumans() }}</small></p>
               </div>
             </div>
         </div>
+        @auth
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
@@ -50,6 +51,15 @@
                 </div>
             </div>
         </div>
+        @else
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>To comment, you need to login first <a href="/login">click here</a> </h4>
+                    </div>
+                </div>
+            </div>
+        @endauth
     </div>
 </div>
 @endsection

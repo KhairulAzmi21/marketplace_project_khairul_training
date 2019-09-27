@@ -117,8 +117,25 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        //flash message say delete successful 
+        //flash message say delete successful
         return redirect('/products');
 
+    }
+
+    public function search()
+    {
+        $products = Product::query();
+
+        if(request()->has('search')){
+            $products = $products->where('title', 'LIKE', '%'.request()->search.'%')
+                            ->orWhere('status', 'LIKE', '%'.request()->search.'%')
+                            ->orWhere('category', 'LIKE', '%'.request()->search.'%');
+        }
+
+        $products = $products->latest()->paginate(4);
+
+        // send to view welcome
+        return view('welcome', [ 'products' => $products ]);
+        // return view('searchResult', [ 'products' => $products ]);
     }
 }

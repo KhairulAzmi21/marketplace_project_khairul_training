@@ -50,18 +50,21 @@
                               <a class="dropdown-item" href="/products/create">New Listing</a>
                             </div>
                          </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">All Listing</a>
-                            </div>
-                         </li>
+                            @role('admin')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="#">All Listing</a>
+                                </div>
+                             </li>
+                             @endrole
+
                          @endauth
 
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
+                    <form class="form-inline my-2 my-lg-0" action="/search/products" method="get" >
                       <button class="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">Search</button>
-                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                      <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     </form>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

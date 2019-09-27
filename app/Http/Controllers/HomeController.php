@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     /**
@@ -23,6 +24,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // fetch all products
+        $products = Product::query();
+
+        // check whether request has category or not
+        if(request()->has('category')){
+            // if request category exists , append where method
+            $products = $products->where('category', request()->category);
+        }
+
+        $products = $products->where('is_active',true)->latest()->paginate(8);
+
+        // send to view welcome
+        return view('welcome', [ 'products' => $products ]);
     }
 }
